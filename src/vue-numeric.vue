@@ -307,7 +307,32 @@ export default {
           thousand: '',
           decimal: this.decimalSeparatorSymbol,
           precision: Number(this.precision)
-        })
+        });
+        
+        let lengthAfterDot = 2;
+        const exploded = this.amount.toString().split(",");
+
+        if (exploded.length > 1) {
+          let comma = (Math.round((("0." + exploded[1]) * 1) * 1000000) / 1000000).toString().split(".");
+
+          lengthAfterDot = comma.length > 1 ? comma[1].length : 2;
+        }
+
+        if (lengthAfterDot > Number(this.precision)) {
+          lengthAfterDot = Number(this.precision);
+        }
+
+        if(lengthAfterDot < 2) {
+          lengthAfterDot = 2;
+        }
+
+        this.amount = accounting.formatMoney(value, {
+          symbol: this.currency,
+          format: this.symbolPosition,
+          precision: Number(lengthAfterDot),
+          decimal: this.decimalSeparatorSymbol,
+          thousand: this.thousandSeparatorSymbol
+        });
       }
     },
 
@@ -364,6 +389,10 @@ export default {
 
       if (lengthAfterDot > Number(this.precision)) {
         lengthAfterDot = Number(this.precision);
+      }
+      
+      if(lengthAfterDot < 2) {
+        lengthAfterDot = 2;
       }
 
       return accounting.formatMoney(value, {
