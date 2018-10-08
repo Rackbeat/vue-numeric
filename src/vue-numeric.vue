@@ -301,7 +301,7 @@ export default {
       if (this.valueNumber === 0) {
         this.amount = null
       } else {
-        this.amount = accounting.formatMoney(this.valueNumber, {
+        let newValue = accounting.formatMoney(this.valueNumber, {
           symbol: '',
           format: '%v',
           thousand: '',
@@ -310,7 +310,7 @@ export default {
         });
         
         let lengthAfterDot = 2;
-        const exploded = this.amount.toString().split(",");
+        const exploded = newValue.toString().split(",");
 
         if (exploded.length > 1) {
           let comma = (Math.round((("0." + exploded[1]) * 1) * 1000000) / 1000000).toString().split(".");
@@ -325,14 +325,16 @@ export default {
         if(lengthAfterDot < 2) {
           lengthAfterDot = 2;
         }
-
-        this.amount = accounting.formatMoney(this.amount, {
+        
+        newValue = accounting.formatMoney(this.valueNumber, {
           symbol: '',
           format: '%v',
           thousand: '',
           decimal: this.decimalSeparatorSymbol,
           precision: Number(lengthAfterDot)
         });
+
+        this.amount = newValue;
       }
     },
 
