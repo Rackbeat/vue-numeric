@@ -326,12 +326,12 @@ export default {
           lengthAfterDot = 2;
         }
 
-        this.amount = accounting.formatMoney(value, {
-          symbol: this.currency,
-          format: this.symbolPosition,
-          precision: Number(lengthAfterDot),
+        this.amount = accounting.formatMoney(this.amount, {
+          symbol: '',
+          format: '%v',
+          thousand: '',
           decimal: this.decimalSeparatorSymbol,
-          thousand: this.thousandSeparatorSymbol
+          precision: Number(lengthAfterDot)
         });
       }
     },
